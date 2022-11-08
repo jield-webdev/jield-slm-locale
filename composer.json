@@ -1,5 +1,5 @@
 {
-  "name": "jield/jield-slm-locale",
+  "name": "jield-webdev/jield-slm-locale",
   "description": "Automatic detection of locales for Laminas",
   "type": "library",
   "license": "BSD-3-Clause",
