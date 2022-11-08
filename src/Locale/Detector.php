@@ -155,7 +155,7 @@ class Detector implements EventManagerAwareInterface
             $event->setSupported($this->getSupported());
         }
 
-        $events  = $this->getEventManager();
+        $events = $this->getEventManager();
         $results = $events->triggerEventUntil(function ($r) {
             return is_string($r);
         }, $event);
@@ -166,13 +166,13 @@ class Detector implements EventManagerAwareInterface
             $locale = $this->getDefault();
         }
 
-        if ($this->hasSupported() && ! in_array($locale, $this->getSupported())) {
+        if ($this->hasSupported() && !in_array($locale, $this->getSupported())) {
             $locale = $this->getDefault();
         }
 
         if ($this->hasMappings() && array_key_exists($locale, $this->getMappings())) {
             $mappings = $this->getMappings();
-            $locale   = $mappings[$locale];
+            $locale = $mappings[$locale];
         }
 
         // Trigger FOUND event only when a response is given
@@ -212,14 +212,14 @@ class Detector implements EventManagerAwareInterface
             $event->setSupported($this->getSupported());
         }
 
-        if (! $uri instanceof Uri) {
+        if (!$uri instanceof Uri) {
             $uri = new Uri($uri);
         }
         $event->setUri($uri);
 
-        $events  = $this->getEventManager();
+        $events = $this->getEventManager();
         $results = $events->triggerEvent($event);
-        if (! $results->stopped()) {
+        if (!$results->stopped()) {
             return $uri;
         }
 

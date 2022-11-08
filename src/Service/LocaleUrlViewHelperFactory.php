@@ -40,21 +40,19 @@
 
 namespace SlmLocale\Service;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use SlmLocale\Locale\Detector;
 use SlmLocale\View\Helper\LocaleUrl;
 
 class LocaleUrlViewHelperFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): LocaleUrl
     {
         $detector = $container->get(Detector::class);
-        $request  = $container->get('Request');
-        $app      = $container->get('Application');
+        $request = $container->get('Request');
+        $app = $container->get('Application');
 
-        $match  = $app->getMvcEvent()->getRouteMatch();
-        $helper = new LocaleUrl($detector, $request, $match);
-
-        return $helper;
+        $match = $app->getMvcEvent()->getRouteMatch();
+        return new LocaleUrl($detector, $request, $match);
     }
 }

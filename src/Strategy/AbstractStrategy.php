@@ -52,7 +52,7 @@ abstract class AbstractStrategy extends AbstractListenerAggregate implements Str
      * Attach "detect", "found" and "assemble" listeners
      *
      * @param EventManagerInterface $events
-     * @param int                   $priority
+     * @param int $priority
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {

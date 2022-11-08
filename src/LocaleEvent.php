@@ -47,14 +47,18 @@ use Laminas\Uri\Uri;
 
 class LocaleEvent extends Event
 {
-    const EVENT_DETECT   = 'detect';
-    const EVENT_FOUND    = 'found';
+    const EVENT_DETECT = 'detect';
+    const EVENT_FOUND = 'found';
     const EVENT_ASSEMBLE = 'assemble';
 
     protected $request;
+
     protected $response;
+
     protected $supported;
+
     protected $locale;
+
     protected $uri;
 
     public function getRequest()
@@ -127,7 +131,7 @@ class LocaleEvent extends Event
     /**
      * Set uri for assemble event
      *
-     * @param  Uri $uri
+     * @param Uri $uri
      * @return self
      */
     public function setUri(Uri $uri)

@@ -40,24 +40,19 @@
 
 namespace SlmLocale\Service;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use SlmLocale\Locale\Detector;
 use SlmLocale\Strategy\StrategyPluginManager;
 
 class DetectorFactory
 {
-    /**
-     * @param  ContainerInterface $container
-     *
-     * @return Detector
-     */
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): Detector
     {
         $config = $container->get('config');
         $config = $config['slm_locale'];
 
         $detector = new Detector();
-        $events   = $container->get('EventManager');
+        $events = $container->get('EventManager');
         $detector->setEventManager($events);
 
         $this->addStrategies($detector, $config['strategies'], $container);
@@ -77,7 +72,7 @@ class DetectorFactory
         return $detector;
     }
 
-    protected function addStrategies(Detector $detector, array $strategies, ContainerInterface $container)
+    protected function addStrategies(Detector $detector, array $strategies, ContainerInterface $container): void
     {
         $plugins = $container->get(StrategyPluginManager::class);
 
@@ -86,8 +81,8 @@ class DetectorFactory
                 $class = $plugins->get($strategy);
                 $detector->addStrategy($class);
             } elseif (is_array($strategy)) {
-                $name     = $strategy['name'];
-                $class    = $plugins->get($name);
+                $name = $strategy['name'];
+                $class = $plugins->get($name);
 
                 if (array_key_exists('options', $strategy) && method_exists($class, 'setOptions')) {
                     $class->setOptions($strategy['options']);

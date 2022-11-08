@@ -40,12 +40,12 @@
 
 namespace SlmLocale\Strategy\Factory;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use SlmLocale\Strategy\UriPathStrategy;
 
 class UriPathStrategyFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): UriPathStrategy
     {
         return new UriPathStrategy($container->get('router'));
     }

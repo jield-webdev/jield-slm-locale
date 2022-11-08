@@ -46,7 +46,7 @@ use SlmLocale\View\Helper\LocaleMenu;
 
 class LocaleMenuViewHelperFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): LocaleMenu
     {
         $detector = $container->get(Detector::class);
 

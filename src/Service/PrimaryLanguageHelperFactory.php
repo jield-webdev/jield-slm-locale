@@ -37,11 +37,12 @@
  * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link        http://juriansluiman.nl
  */
+
 namespace SlmLocale\Service;
 
-use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Locale;
+use Psr\Container\ContainerInterface;
 use SlmLocale\View\Helper\PrimaryLanguage;
 
 final class PrimaryLanguageHelperFactory implements FactoryInterface
@@ -50,9 +51,9 @@ final class PrimaryLanguageHelperFactory implements FactoryInterface
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return object|PrimaryLanguage
+     * @return PrimaryLanguage
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): PrimaryLanguage
     {
         return new PrimaryLanguage(new Locale());
     }
