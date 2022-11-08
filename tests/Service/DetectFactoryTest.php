@@ -37,7 +37,7 @@
  * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link        http://juriansluiman.nl
  */
-namespace SlmLocaleTest\Locale;
+namespace SlmLocaleTest\Service;
 
 use Laminas\EventManager\EventManager;
 use Laminas\ServiceManager\ServiceManager;

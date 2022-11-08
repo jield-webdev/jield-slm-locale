@@ -1,10 +1,10 @@
 <?php
 
-use SlmLocale\Locale\Detector;
 use SlmLocale\Service;
-use SlmLocale\Strategy\Factory\StrategyPluginManagerFactory;
-use SlmLocale\Strategy\StrategyPluginManager;
 use SlmLocale\View\Helper;
+use src\Locale\Detector;
+use src\Strategy\Factory\StrategyPluginManagerFactory;
+use src\Strategy\StrategyPluginManager;
 
 /**
  * Copyright (c) 2012-2013 Jurian Sluiman.
@@ -53,20 +53,20 @@ return [
     'service_manager' => [
         'factories'  => [
             StrategyPluginManager::class => StrategyPluginManagerFactory::class,
-            Detector::class              => Service\DetectorFactory::class,
+            Detector::class              => \src\Service\DetectorFactory::class,
         ],
     ],
 
     'view_helpers' => [
         'aliases' => [
-            'localeUrl'       => Helper\LocaleUrl::class,
-            'localeMenu'      => Helper\LocaleMenu::class,
-            'primaryLanguage' => Helper\PrimaryLanguage::class,
+            'localeUrl'       => \src\View\Helper\LocaleUrl::class,
+            'localeMenu'      => \src\View\Helper\LocaleMenu::class,
+            'primaryLanguage' => \src\View\Helper\PrimaryLanguage::class,
         ],
         'factories' => [
-            Helper\LocaleUrl::class       => Service\LocaleUrlViewHelperFactory::class,
-            Helper\LocaleMenu::class      => Service\LocaleMenuViewHelperFactory::class,
-            Helper\PrimaryLanguage::class => Service\PrimaryLanguageHelperFactory::class,
+            \src\View\Helper\LocaleUrl::class       => \src\Service\LocaleUrlViewHelperFactory::class,
+            \src\View\Helper\LocaleMenu::class      => \src\Service\LocaleMenuViewHelperFactory::class,
+            \src\View\Helper\PrimaryLanguage::class => \src\Service\PrimaryLanguageHelperFactory::class,
         ],
     ],
 ];

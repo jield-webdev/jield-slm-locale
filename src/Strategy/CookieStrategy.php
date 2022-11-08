@@ -113,7 +113,7 @@ class CookieStrategy extends AbstractStrategy
         $path = '/';
 
         if (method_exists($request, 'getBasePath')) {
-            $path = rtrim($request->getBasePath(), '/') . '/';
+            $path = rtrim((string) $request->getBasePath(), '/') . '/';
         }
 
         $response  = $event->getResponse();

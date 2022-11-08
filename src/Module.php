@@ -41,7 +41,6 @@
 namespace SlmLocale;
 
 use Laminas\EventManager\EventInterface;
-
 use Laminas\ModuleManager\Feature;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Stdlib\ResponseInterface;
@@ -54,16 +53,16 @@ class Module implements
 {
     public function getConfig()
     {
-        return include __DIR__ . '/../../config/module.config.php';
+        return include __DIR__ . '/../config/module.config.php';
     }
 
     public function onBootstrap(EventInterface $e)
     {
         $app = $e->getApplication();
-        $sm  = $app->getServiceManager();
+        $sm = $app->getServiceManager();
 
         $detector = $sm->get(Detector::class);
-        $result   = $detector->detect($app->getRequest(), $app->getResponse());
+        $result = $detector->detect($app->getRequest(), $app->getResponse());
 
         if ($result instanceof ResponseInterface) {
             /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace SlmLocaleTest\Locale;
+namespace SlmLocaleTest;
 
 use Laminas\EventManager\EventManager;
 use Laminas\Mvc\Application;
@@ -45,7 +45,9 @@ class ModuleTest extends TestCase
     public function testWillOvertakeRouteEventIfResponseChanged()
     {
         $detector = $this->prophesize(Detector::class);
-        $detector->detect($request = new Request(), $response = new Response())->willReturn($redirectResponse = new Response());
+        $detector->detect($request = new Request(), $response = new Response())->willReturn(
+            $redirectResponse = new Response()
+        );
 
         $serviceManager = new ServiceManager();
         $serviceManager->setService(Detector::class, $detector->reveal());

@@ -37,10 +37,10 @@
  * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link        http://juriansluiman.nl
  */
-namespace SlmLocaleTest\Locale;
+namespace SlmLocaleTest\Strategy;
 
 use Laminas\Http\Header\Cookie;
-use Laminas\Http\Request  as HttpRequest;
+use Laminas\Http\Request as HttpRequest;
 use Laminas\Http\Response as HttpResponse;
 use PHPUnit\Framework\TestCase;
 use SlmLocale\LocaleEvent;

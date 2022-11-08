@@ -45,23 +45,25 @@ use SlmLocale\Strategy\Exception\InvalidArgumentException;
 
 class HostStrategy extends AbstractStrategy
 {
-    const LOCALE_KEY           = ':locale';
+    const LOCALE_KEY = ':locale';
     const REDIRECT_STATUS_CODE = 302;
 
     protected $domain;
+
     protected $aliases;
+
     protected $redirect_to_canonical;
 
     public function setOptions(array $options = [])
     {
         if (array_key_exists('domain', $options)) {
-            $this->domain = (string) $options['domain'];
+            $this->domain = (string)$options['domain'];
         }
         if (array_key_exists('aliases', $options)) {
-            $this->aliases = (array) $options['aliases'];
+            $this->aliases = (array)$options['aliases'];
         }
         if (array_key_exists('redirect_to_canonical', $options)) {
-            $this->redirect_to_canonical = (bool) $options['redirect_to_canonical'];
+            $this->redirect_to_canonical = (bool)$options['redirect_to_canonical'];
         }
     }
 
@@ -83,32 +85,36 @@ class HostStrategy extends AbstractStrategy
     public function detect(LocaleEvent $event)
     {
         $request = $event->getRequest();
-        if (! $this->isHttpRequest($request)) {
+        if (!$this->isHttpRequest($request)) {
             return;
         }
 
-        if (! $event->hasSupported()) {
+        if (!$event->hasSupported()) {
             return;
         }
 
         $domain = $this->getDomain();
-        if (! null === $domain) {
-            throw new Exception\InvalidArgumentException(
+        if (!null === $domain) {
+            throw new \SlmLocale\Strategy\Exception\InvalidArgumentException(
                 'The strategy must be configured with a domain option'
             );
         }
         if (strpos($domain, self::LOCALE_KEY) === false) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'The domain %s must contain a locale key part "%s"', $domain, self::LOCALE_KEY
-            ));
+            throw new \SlmLocale\Strategy\Exception\InvalidArgumentException(
+                sprintf(
+                    'The domain %s must contain a locale key part "%s"',
+                    $domain,
+                    self::LOCALE_KEY
+                )
+            );
         }
 
-        $host    = $request->getUri()->getHost();
+        $host = $request->getUri()->getHost();
         $pattern = str_replace(self::LOCALE_KEY, '([a-zA-Z-_.]+)', $domain);
         $pattern = sprintf('@%s@', $pattern);
-        $result  = preg_match($pattern, $host, $matches);
+        $result = preg_match($pattern, $host, $matches);
 
-        if (! $result) {
+        if (!$result) {
             return;
         }
 
@@ -119,7 +125,7 @@ class HostStrategy extends AbstractStrategy
             $locale = $aliases[$locale];
         }
 
-        if (! in_array($locale, $event->getSupported())) {
+        if (!in_array($locale, $event->getSupported())) {
             return;
         }
 
@@ -129,26 +135,26 @@ class HostStrategy extends AbstractStrategy
     public function found(LocaleEvent $event)
     {
         $request = $event->getRequest();
-        if (! $this->isHttpRequest($request)) {
+        if (!$this->isHttpRequest($request)) {
             return;
         }
 
-        if (! $event->hasSupported()) {
+        if (!$event->hasSupported()) {
             return;
         }
 
-        $locale  = $event->getLocale();
+        $locale = $event->getLocale();
         if (null === $locale) {
             return;
         }
 
         // By default, use the alias to redirect to
-        if (! $this->redirectToCanonical()) {
+        if (!$this->redirectToCanonical()) {
             $locale = $this->getAliasForLocale($locale);
         }
 
         $host = str_replace(self::LOCALE_KEY, $locale, $this->getDomain());
-        $uri  = $request->getUri();
+        $uri = $request->getUri();
         if ($host === $uri->getHost()) {
             return;
         }
@@ -184,11 +190,11 @@ class HostStrategy extends AbstractStrategy
             }
         }
 
-        if (! isset($tld)) {
+        if (!isset($tld)) {
             throw new InvalidArgumentException('No matching tld found for current locale');
         }
 
-        $port     = $event->getRequest()->getServer()->get('SERVER_PORT');
+        $port = $event->getRequest()->getServer()->get('SERVER_PORT');
         $hostname = str_replace(self::LOCALE_KEY, $tld, $this->getDomain());
 
         if (null !== $port && 80 !== $port) {

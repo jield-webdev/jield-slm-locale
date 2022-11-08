@@ -37,10 +37,8 @@
  * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link        http://juriansluiman.nl
  */
-namespace SlmLocaleTest\Locale;
+namespace SlmLocaleTest\Strategy;
 
-use Laminas\Console\Request as ConsoleRequest;
-use Laminas\Console\Response as ConsoleResponse;
 use Laminas\Http\PhpEnvironment\Request as HttpRequest;
 use Laminas\Http\PhpEnvironment\Response as HttpResponse;
 use Laminas\Mvc\Console\Router\SimpleRouteStack as ConsoleRouter;

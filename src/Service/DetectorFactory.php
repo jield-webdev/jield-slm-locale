@@ -100,7 +100,7 @@ class DetectorFactory
 
                 $detector->addStrategy($class, $priority);
             } else {
-                throw new Exception\StrategyConfigurationException(
+                throw new \SlmLocale\Service\Exception\StrategyConfigurationException(
                     'Strategy configuration must be a string or an array'
                 );
             }

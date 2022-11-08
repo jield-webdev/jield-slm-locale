@@ -194,7 +194,7 @@ class UriPathStrategy extends AbstractStrategy
         $path = $uri->getPath();
 
         // Last part of base is now always locale, remove that
-        $parts       = explode('/', trim($base, '/'));
+        $parts       = explode('/', trim((string) $base, '/'));
         $lastElement = count($parts) - 1;
 
         $removeFirstLocale = true;
@@ -214,10 +214,10 @@ class UriPathStrategy extends AbstractStrategy
         $base  = implode('/', $parts);
 
         if ($base) {
-            $path = substr(trim($path, '/'), strlen($base));
+            $path = substr(trim((string) $path, '/'), strlen($base));
         }
 
-        $parts  = explode('/', trim($path, '/'));
+        $parts  = explode('/', trim((string) $path, '/'));
         if (true === $removeFirstLocale) {
             // Remove first part
             array_shift($parts);
@@ -243,7 +243,7 @@ class UriPathStrategy extends AbstractStrategy
             $path = substr($path, strlen($base));
         }
 
-        $parts  = explode('/', trim($path, '/'));
+        $parts  = explode('/', trim((string)$path, '/'));
         $locale = array_shift($parts);
 
         return $locale;
