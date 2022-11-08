@@ -51,11 +51,16 @@ class UriPathStrategy extends AbstractStrategy
     const REDIRECT_STATUS_CODE = 302;
 
     protected $redirect_when_found = true;
+
     protected $aliases;
+
     protected $redirect_to_canonical;
+
     protected $sl;
+
     /** @var string|null */
     protected $default;
+
     /**
      * @var SimpleRouteStack
      */
@@ -69,16 +74,16 @@ class UriPathStrategy extends AbstractStrategy
     public function setOptions(array $options = [])
     {
         if (array_key_exists('redirect_when_found', $options)) {
-            $this->redirect_when_found = (bool) $options['redirect_when_found'];
+            $this->redirect_when_found = (bool)$options['redirect_when_found'];
         }
         if (array_key_exists('aliases', $options)) {
-            $this->aliases = (array) $options['aliases'];
+            $this->aliases = (array)$options['aliases'];
         }
         if (array_key_exists('redirect_to_canonical', $options)) {
-            $this->redirect_to_canonical = (bool) $options['redirect_to_canonical'];
+            $this->redirect_to_canonical = (bool)$options['redirect_to_canonical'];
         }
         if (array_key_exists('default', $options)) {
-            $this->default = (string) $options['default'];
+            $this->default = (string)$options['default'];
         }
     }
 
@@ -100,13 +105,13 @@ class UriPathStrategy extends AbstractStrategy
     public function detect(LocaleEvent $event)
     {
         $request = $event->getRequest();
-        if (! $this->isHttpRequest($request)) {
+        if (!$this->isHttpRequest($request)) {
             return;
         }
 
-        $base   = $this->getBasePath($request);
+        $base = $this->getBasePath($request);
         $locale = $this->getFirstSegmentInPath($request->getUri(), $base);
-        if (! $locale) {
+        if (!$locale) {
             return;
         }
 
@@ -115,7 +120,7 @@ class UriPathStrategy extends AbstractStrategy
             $locale = $aliases[$locale];
         }
 
-        if (! $event->hasSupported() || ! in_array($locale, $event->getSupported())) {
+        if (!$event->hasSupported() || !in_array($locale, $event->getSupported())) {
             return;
         }
 
@@ -129,7 +134,7 @@ class UriPathStrategy extends AbstractStrategy
         }
 
         $request = $event->getRequest();
-        if (! $this->isHttpRequest($request)) {
+        if (!$this->isHttpRequest($request)) {
             return;
         }
 
@@ -138,14 +143,14 @@ class UriPathStrategy extends AbstractStrategy
             return;
         }
 
-        if (! $this->redirectToCanonical() && null !== $this->getAliases()) {
+        if (!$this->redirectToCanonical() && null !== $this->getAliases()) {
             $alias = $this->getAliasForLocale($locale);
             if (null !== $alias) {
                 $locale = $alias;
             }
         }
 
-        $base  = $this->getBasePath($request);
+        $base = $this->getBasePath($request);
         $found = $this->getFirstSegmentInPath($request->getUri(), $base);
 
         if ($this->router instanceof TreeRouteStack) {
@@ -156,14 +161,19 @@ class UriPathStrategy extends AbstractStrategy
             return;
         }
 
-        if (! $this->redirectWhenFound()) {
+        if (!$this->redirectWhenFound()) {
             return;
         }
 
-        $uri  = $request->getUri();
+        $uri = $request->getUri();
         $path = $uri->getPath();
 
-        if (! $found || ($event->hasSupported() && ! in_array($found, $event->getSupported()))) {
+        //Do not rewrite assets
+        if (str_contains($uri, '.js') || str_contains($uri, '.css')) {
+            return;
+        }
+
+        if (!$found || ($event->hasSupported() && !in_array($found, $event->getSupported()))) {
             $path = '/' . $locale . $path;
         } else {
             $path = str_replace($found, $locale, $path);
@@ -180,11 +190,11 @@ class UriPathStrategy extends AbstractStrategy
 
     public function assemble(LocaleEvent $event)
     {
-        $uri     = $event->getUri();
-        $base    = $this->getBasePath($event->getRequest());
-        $locale  = $event->getLocale();
+        $uri = $event->getUri();
+        $base = $this->getBasePath($event->getRequest());
+        $locale = $event->getLocale();
 
-        if (! $this->redirectToCanonical() && null !== $this->getAliases()) {
+        if (!$this->redirectToCanonical() && null !== $this->getAliases()) {
             $alias = $this->getAliasForLocale($locale);
             if (null !== $alias) {
                 $locale = $alias;
@@ -194,13 +204,13 @@ class UriPathStrategy extends AbstractStrategy
         $path = $uri->getPath();
 
         // Last part of base is now always locale, remove that
-        $parts       = explode('/', trim((string) $base, '/'));
+        $parts = explode('/', trim((string)$base, '/'));
         $lastElement = count($parts) - 1;
 
         $removeFirstLocale = true;
         if (null !== $this->default &&
             isset($parts[$lastElement]) &&
-            ! in_array($parts[$lastElement], $event->getSupported(), true) &&
+            !in_array($parts[$lastElement], $event->getSupported(), true) &&
             $parts[$lastElement] !== $this->default
         ) {
             $removeFirstLocale = false;
@@ -211,13 +221,13 @@ class UriPathStrategy extends AbstractStrategy
             array_pop($parts);
         }
 
-        $base  = implode('/', $parts);
+        $base = implode('/', $parts);
 
         if ($base) {
-            $path = substr(trim((string) $path, '/'), strlen($base));
+            $path = substr(trim((string)$path, '/'), strlen($base));
         }
 
-        $parts  = explode('/', trim((string) $path, '/'));
+        $parts = explode('/', trim((string)$path, '/'));
         if (true === $removeFirstLocale) {
             // Remove first part
             array_shift($parts);
@@ -243,7 +253,7 @@ class UriPathStrategy extends AbstractStrategy
             $path = substr($path, strlen($base));
         }
 
-        $parts  = explode('/', trim((string)$path, '/'));
+        $parts = explode('/', trim((string)$path, '/'));
         $locale = array_shift($parts);
 
         return $locale;

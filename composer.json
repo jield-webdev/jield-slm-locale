@@ -28,11 +28,10 @@
     "laminas/laminas-view": "^2.25.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.19",
     "laminas/laminas-mvc": "^3.5",
     "php-coveralls/php-coveralls": "^2.5.3",
-    "phpspec/prophecy": "^1.15",
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "phpspec/prophecy-phpunit": "v2.0.1"
   },
   "suggest": {
     "laminas/laminas-mvc": "For using the router in the UriPath strategy"
@@ -51,11 +50,6 @@
     "sort-packages": true
   },
   "scripts": {
-    "check": [
-      "@cs-check",
-      "@test"
-    ],
-    "cs-check": "php-cs-fixer fix -v --diff --dry-run",
     "test": "phpunit --colors=always"
   }
 }

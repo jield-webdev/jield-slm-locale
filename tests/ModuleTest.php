@@ -9,6 +9,7 @@ use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\Request;
 use Laminas\Stdlib\Response;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Prophet;
 use SlmLocale\Locale\Detector;
 use SlmLocale\Module;
 
@@ -22,7 +23,7 @@ class ModuleTest extends TestCase
 
     public function testCanDetectAndSetLocale()
     {
-        $detector = $this->prophesize(Detector::class);
+        $detector = (new Prophet())->prophesize(Detector::class);
         $detector->detect($request = new Request(), $response = new Response())->willReturn($locale = 'lt');
 
         $serviceManager = new ServiceManager();
@@ -44,7 +45,7 @@ class ModuleTest extends TestCase
      */
     public function testWillOvertakeRouteEventIfResponseChanged()
     {
-        $detector = $this->prophesize(Detector::class);
+        $detector = (new Prophet())->prophesize(Detector::class);
         $detector->detect($request = new Request(), $response = new Response())->willReturn(
             $redirectResponse = new Response()
         );

@@ -1,5 +1,7 @@
 <?php
 
+use Application\Factory\TranslatorServiceFactory;
+use Laminas\I18n\Translator\TranslatorInterface;
 use SlmLocale\Locale\Detector;
 use SlmLocale\Strategy\Factory\StrategyPluginManagerFactory;
 use SlmLocale\Strategy\StrategyPluginManager;

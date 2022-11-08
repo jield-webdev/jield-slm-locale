@@ -47,26 +47,26 @@ use Laminas\Uri\Uri;
 
 class LocaleEvent extends Event
 {
-    const EVENT_DETECT = 'detect';
-    const EVENT_FOUND = 'found';
-    const EVENT_ASSEMBLE = 'assemble';
+    public const EVENT_DETECT = 'detect';
+    public const EVENT_FOUND = 'found';
+    public const EVENT_ASSEMBLE = 'assemble';
 
     protected $request;
 
     protected $response;
 
-    protected $supported;
+    protected ?array $supported = null;
 
     protected $locale;
 
-    protected $uri;
+    protected Uri $uri;
 
     public function getRequest()
     {
         return $this->request;
     }
 
-    public function setRequest(RequestInterface $request)
+    public function setRequest(RequestInterface $request): LocaleEvent
     {
         $this->setParam('request', $request);
         $this->request = $request;
@@ -79,7 +79,7 @@ class LocaleEvent extends Event
         return $this->response;
     }
 
-    public function setResponse(ResponseInterface $response)
+    public function setResponse(ResponseInterface $response): LocaleEvent
     {
         $this->setParam('response', $response);
         $this->response = $response;
@@ -92,7 +92,7 @@ class LocaleEvent extends Event
         return $this->supported;
     }
 
-    public function setSupported(array $supported)
+    public function setSupported(array $supported): LocaleEvent
     {
         $this->setParam('supported', $supported);
         $this->supported = $supported;
@@ -100,7 +100,7 @@ class LocaleEvent extends Event
         return $this;
     }
 
-    public function hasSupported()
+    public function hasSupported(): bool
     {
         return is_array($this->supported) && count($this->supported);
     }
